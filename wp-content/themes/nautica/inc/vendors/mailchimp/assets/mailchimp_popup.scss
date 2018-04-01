@@ -1,0 +1,50 @@
+.mailchimp-modal-content {
+  background: #fff url('background.jpg') no-repeat scroll right bottom;
+  padding-bottom: 280px;
+  .mailchimp-modal-body {
+    padding: 60px 150px 0;
+    text-align: center;
+    h4 {
+      font: 400 4.8rem/5.6rem "Lora";
+      color: #fe5556;
+    }
+    .popup-des {
+      padding: 30px 0;
+      color: #888;
+      font-size: 1.7rem;
+    }
+    .mc4wp-form {
+      margin: 1em 40px;
+    }
+    .setting-popup {
+      margin-top: 30px;
+      .mailchimp_popup_setting {
+        font-weight: normal;
+        font-size: 1.7rem;
+        color: #888;
+        cursor: pointer;
+        position: relative;
+        i {
+          border: 1px solid #888;
+          width: 20px;
+          height: 20px;
+          vertical-align: text-bottom;
+          font-size: 1.4rem;
+          line-height: 1.8rem;
+          -webkit-transition: all .2s ease;
+          transition: all .2s ease;
+          margin-right: 8px;
+        }
+      }
+      input {
+        margin: 0;
+      }
+      label {
+        font-weight: normal;
+        font-size: 1.7rem;
+        color: #888;
+        cursor: pointer;
+      }
+    }
+  }
+}

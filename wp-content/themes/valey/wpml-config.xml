@@ -1,0 +1,11 @@
+<wpml-config>
+	<admin-texts>
+		<key name="valey_theme_option">
+			<key name="blog-page-title" />
+			<key name="blog-page-subtitle" />
+			<key name="wc-page-title">
+			<key name="wc-page-subtitle" />
+			<key name="wc-extra-section">
+		</key>
+	</admin-texts>
+</wpml-config>

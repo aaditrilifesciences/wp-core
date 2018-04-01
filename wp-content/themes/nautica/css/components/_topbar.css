@@ -1,0 +1,131 @@
+.header-topbar {
+  color: #fff;
+  height: 40px;
+}
+
+.header-topbar a {
+  color: ddd;
+}
+
+.header-topbar a:hover {
+  color: #fff;
+}
+
+.header-topbar .search-box {
+  line-height: 40px;
+  vertical-align: middle;
+  width: 250px;
+  float: left;
+  display: inline-block;
+  position: relative;
+  height: 40px;
+}
+
+.header-topbar .search-box .searchform .engo-search input.input-search {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 13px;
+  padding: 0;
+  height: 25px;
+  width: 250px;
+  text-indent: 30px;
+  font: 400 11px Montserrat;
+  color: rgba(181, 181, 181, 0.3);
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.header-topbar .search-box .searchform .engo-search .btn-search {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 15px 8px;
+  background: none;
+  border: none;
+}
+
+.right-top {
+  display: inline-block;
+  height: 40px;
+  float: right;
+}
+
+.right-top .list-line {
+  margin: 0;
+  padding: 0;
+}
+
+.right-top .shop-cart {
+  display: inline-block;
+  float: right;
+  height: 40px;
+}
+
+.right-top .shop-cart .top-cart {
+  display: inline-block;
+  height: inherit;
+}
+
+.right-top .shop-cart .top-cart .mini-cart {
+  font-size: 0;
+  display: inline-block;
+  color: #fff;
+}
+
+.right-top .shop-cart .top-cart .mini-cart .title-cart {
+  display: inline-block;
+  font-size: 0;
+  width: 20px;
+  height: 40px;
+  background: url(../images/cart-icon.png) no-repeat;
+  background-position: center center;
+}
+
+.right-top .shop-cart .top-cart .mini-cart .amount {
+  display: none;
+}
+
+.right-top .setting-nav {
+  display: inline-block;
+}
+
+.right-top .setting-nav ul li {
+  display: block;
+  float: left;
+}
+
+.right-top .setting-nav ul li a {
+  font: 400 11px Montserrat;
+  color: #ffffff;
+  line-height: 40px;
+  height: 9px;
+  padding: 0 8px;
+  border-right: #ffffff 1px solid;
+  text-transform: uppercase;
+}
+
+.right-top .setting-nav ul li:last-child a {
+  border-right: none;
+}
+
+.right-top .setting-nav ul.list-square li::before {
+  display: none;
+}
+
+.right-top #cart .mini-cart .title-cart {
+  font-size: 0;
+}
+
+/* home- v2 */
+.header-home-v2 .engo-topbar .topbar-inner {
+  background: none;
+}
+
+.header-home-v2 .right-top .setting-nav ul li a {
+  color: #212121;
+  border-right: 1px solid #212121;
+}
+
+.header-home-v2 .header-topbar .search-box .searchform .engo-search input.input-search {
+  background: #e8e8e8;
+}

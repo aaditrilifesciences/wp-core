@@ -1,0 +1,33 @@
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+
+.breadcrumb {
+  padding: $breadcrumb-padding-vertical $breadcrumb-padding-horizontal;
+  margin-bottom: $line-height-computed;
+  list-style: none;
+  background-color: $breadcrumb-bg;
+  /* border-radius: $border-radius-base; */
+
+  > li {
+    display: inline-block;
+
+    + li:before {
+      display: inline-block;
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      content: '\f178';
+      font-size: 16px;
+      margin: 0 19px;
+      color: #b5b5b5;
+    }
+  }
+
+  > .active {
+    color: $breadcrumb-active-color;
+  }
+}
