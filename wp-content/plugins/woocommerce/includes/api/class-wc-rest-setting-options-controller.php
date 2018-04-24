@@ -418,7 +418,6 @@ class WC_REST_Setting_Options_Controller extends WC_REST_Controller {
 	 * For image_width, Crop can return "0" instead of false -- so we want
 	 * to make sure we return these consistently the same we accept them.
 	 *
-	 * @todo remove in 4.0
 	 * @since 3.0.0
 	 * @param  array $setting
 	 * @return array
@@ -476,7 +475,6 @@ class WC_REST_Setting_Options_Controller extends WC_REST_Controller {
 			'radio',        // Validates with validate_setting_radio_field (-> validate_setting_select_field).
 			'checkbox',     // Validates with validate_setting_checkbox_field.
 			'image_width',  // Validates with validate_setting_image_width_field.
-			'thumbnail_cropping', // Validates with validate_setting_text_field.
 		) );
 	}
 
@@ -555,7 +553,7 @@ class WC_REST_Setting_Options_Controller extends WC_REST_Controller {
 						'sanitize_callback' => 'sanitize_text_field',
 					),
 					'context'      => array( 'view', 'edit' ),
-					'enum'         => array( 'text', 'email', 'number', 'color', 'password', 'textarea', 'select', 'multiselect', 'radio', 'image_width', 'checkbox', 'thumbnail_cropping' ),
+					'enum'         => array( 'text', 'email', 'number', 'color', 'password', 'textarea', 'select', 'multiselect', 'radio', 'image_width', 'checkbox' ),
 					'readonly'     => true,
 				),
 				'options'          => array(

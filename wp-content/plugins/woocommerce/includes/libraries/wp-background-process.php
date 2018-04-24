@@ -1,15 +1,14 @@
-<?php // @codingStandardsIgnoreLine.
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Abstract WP_Background_Process class.
  *
+ * @abstract
  * @package WP-Background-Processing
  * @extends WP_Async_Request
- */
-
-defined( 'ABSPATH' ) || exit;
-
-/**
- * Abstract WP_Background_Process class.
  */
 abstract class WP_Background_Process extends WP_Async_Request {
 
@@ -196,10 +195,10 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		$key = $this->identifier . '_batch_%';
 
 		$count = $wpdb->get_var( $wpdb->prepare( "
-			SELECT COUNT(*)
-			FROM {$table}
-			WHERE {$column} LIKE %s
-		", $key ) );
+		SELECT COUNT(*)
+		FROM {$table}
+		WHERE {$column} LIKE %s
+	", $key ) );
 
 		return ( $count > 0 ) ? false : true;
 	}
@@ -271,11 +270,11 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		$key = $this->identifier . '_batch_%';
 
 		$query = $wpdb->get_row( $wpdb->prepare( "
-			SELECT *
-			FROM {$table}
-			WHERE {$column} LIKE %s
-			ORDER BY {$key_column} ASC
-			LIMIT 1
+		SELECT *
+		FROM {$table}
+		WHERE {$column} LIKE %s
+		ORDER BY {$key_column} ASC
+		LIMIT 1
 		", $key ) );
 
 		$batch       = new stdClass();
@@ -328,8 +327,6 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		} else {
 			$this->complete();
 		}
-
-		wp_die();
 	}
 
 	/**
@@ -365,7 +362,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 			$memory_limit = '128M';
 		}
 
-		if ( ! $memory_limit || -1 === $memory_limit ) {
+		if ( ! $memory_limit || -1 === intval( $memory_limit ) ) {
 			// Unlimited, set to 32GB.
 			$memory_limit = '32000M';
 		}
@@ -420,7 +417,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		// Adds every 5 minutes to the existing schedules.
 		$schedules[ $this->identifier . '_cron_interval' ] = array(
 			'interval' => MINUTE_IN_SECONDS * $interval,
-			'display'  => sprintf( __( 'Every %d Minutes' ), $interval ),
+			'display'  => sprintf( __( 'Every %d minutes', 'woocommerce' ), $interval ),
 		);
 
 		return $schedules;

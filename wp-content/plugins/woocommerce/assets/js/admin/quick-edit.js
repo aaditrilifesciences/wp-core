@@ -60,12 +60,10 @@ jQuery(function( $ ) {
 		}
 
 		if ( 'yes' === manage_stock ) {
-			$( '.stock_qty_field, .backorder_field', '.inline-edit-row' ).show().removeAttr( 'style' );
-			$( '.stock_status_field' ).hide();
+			$( '.stock_qty_field', '.inline-edit-row' ).show().removeAttr( 'style' );
 			$( 'input[name="_manage_stock"]', '.inline-edit-row' ).attr( 'checked', 'checked' );
 		} else {
-			$( '.stock_qty_field, .backorder_field', '.inline-edit-row' ).hide();
-			$( '.stock_status_field' ).show().removeAttr( 'style' );
+			$( '.stock_qty_field', '.inline-edit-row' ).hide();
 			$( 'input[name="_manage_stock"]', '.inline-edit-row' ).removeAttr( 'checked' );
 		}
 
@@ -98,11 +96,9 @@ jQuery(function( $ ) {
 	$( '#the-list' ).on( 'change', '.inline-edit-row input[name="_manage_stock"]', function() {
 
 		if ( $( this ).is( ':checked' ) ) {
-			$( '.stock_qty_field, .backorder_field', '.inline-edit-row' ).show().removeAttr( 'style' );
-			$( '.stock_status_field' ).hide();
+			$( '.stock_qty_field', '.inline-edit-row' ).show().removeAttr( 'style' );
 		} else {
-			$( '.stock_qty_field, .backorder_field', '.inline-edit-row' ).hide();
-			$( '.stock_status_field' ).show().removeAttr( 'style' );
+			$( '.stock_qty_field', '.inline-edit-row' ).hide();
 		}
 
 	});
@@ -121,9 +117,5 @@ jQuery(function( $ ) {
 			$( this ).closest( 'div' ).find( '.change-input' ).hide();
 		}
 
-	});
-
-	$( '#wpbody' ).on( 'click', '.trash-product', function() {
-		return window.confirm( woocommerce_admin.i18_delete_product_notice );
 	});
 });

@@ -138,7 +138,7 @@ class WC_Report_Customer_List extends WP_List_Table {
 
 			break;
 
-			case 'wc_actions' :
+			case 'user_actions' :
 				ob_start();
 				?><p>
 					<?php
@@ -210,7 +210,7 @@ class WC_Report_Customer_List extends WP_List_Table {
 			'orders'          => __( 'Orders', 'woocommerce' ),
 			'spent'           => __( 'Money spent', 'woocommerce' ),
 			'last_order'      => __( 'Last order', 'woocommerce' ),
-			'wc_actions'      => __( 'Actions', 'woocommerce' ),
+			'user_actions'    => __( 'Actions', 'woocommerce' ),
 		);
 
 		return $columns;

@@ -168,22 +168,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	 * @return integer
 	 */
 	public function get_download_count( $context = 'view' ) {
-		// Check for count of download logs.
-		$data_store = WC_Data_Store::load( 'customer-download-log' );
-		$download_log_ids = $data_store->get_download_logs_for_permission( $this->get_id() );
-
-		$download_log_count = 0;
-		if ( ! empty( $download_log_ids ) ) {
-			$download_log_count = count( $download_log_ids );
-		}
-
-		// Check download count in prop.
-		$download_count_prop = $this->get_prop( 'download_count', $context );
-
-		// Return the larger of the two in case they differ.
-		// If logs are removed for some reason, we should still respect the
-		// count stored in the prop.
-		return max( $download_log_count, $download_count_prop );
+		return $this->get_prop( 'download_count', $context );
 	}
 
 	/*
@@ -210,7 +195,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set user id.
+	 * Get user id.
 	 *
 	 * @param int $value
 	 */
@@ -219,7 +204,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set user_email.
+	 * Get user_email.
 	 *
 	 * @param int $value
 	 */
@@ -228,7 +213,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set order_id.
+	 * Get order_id.
 	 *
 	 * @param int $value
 	 */
@@ -237,7 +222,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set order_key.
+	 * Get order_key.
 	 *
 	 * @param string $value
 	 */
@@ -246,7 +231,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set downloads_remaining.
+	 * Get downloads_remaining.
 	 *
 	 * @param integer|string $value
 	 */
@@ -255,7 +240,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set access_granted.
+	 * Get access_granted.
 	 *
 	 * @param string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if their is no date.
 	 */
@@ -264,7 +249,7 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set access_expires.
+	 * Get access_expires.
 	 *
 	 * @param string|integer|null $date UTC timestamp, or ISO 8601 DateTime. If the DateTime string has no timezone or offset, WordPress site timezone will be assumed. Null if their is no date.
 	 */
@@ -273,59 +258,12 @@ class WC_Customer_Download extends WC_Data implements ArrayAccess {
 	}
 
 	/**
-	 * Set download_count.
+	 * Get download_count.
 	 *
 	 * @param int $value
 	 */
 	public function set_download_count( $value ) {
 		$this->set_prop( 'download_count', absint( $value ) );
-	}
-
-	/**
-	 * Track a download on this permission.
-	 *
-	 * @since 3.3.0
-	 * @param int user_id Id of the user performing the download
-	 * @param string user_ip_address IP Address of the user performing the download
-	 */
-	public function track_download( $user_id = null, $user_ip_address = null ) {
-		global $wpdb;
-
-		// Must have a permission_id to track download log.
-		if ( ! ( $this->get_id() > 0 ) ) {
-			throw new Exception( __( 'Invalid permission ID.', 'woocommerce' ) );
-		}
-
-		// Increment download count, and decrement downloads remaining.
-		// Use SQL to avoid possible issues with downloads in quick succession.
-		// If downloads_remaining is blank, leave it blank (unlimited).
-		// Also, ensure downloads_remaining doesn't drop below zero.
-		$query = $wpdb->prepare( "
-UPDATE {$wpdb->prefix}woocommerce_downloadable_product_permissions
-SET download_count = download_count + 1,
-downloads_remaining = IF( downloads_remaining = '', '', GREATEST( 0, downloads_remaining - 1 ) )
-WHERE permission_id = %d",
-			$this->get_id()
-		);
-		$wpdb->query( $query );
-		
-		// Re-read this download from the data store to pull updated counts.
-		$this->data_store->read( $this );
-
-		// Track download in download log.
-		$download_log = new WC_Customer_Download_Log();
-		$download_log->set_timestamp( current_time( 'timestamp', true ) );
-		$download_log->set_permission_id( $this->get_id() );
-
-		if ( ! is_null( $user_id ) ) {
-			$download_log->set_user_id( $user_id );
-		}
-
-		if ( ! is_null( $user_ip_address ) ) {
-			$download_log->set_user_ip_address( $user_ip_address );
-		}
-
-		$download_log->save();
 	}
 
 	/*
@@ -407,7 +345,7 @@ WHERE permission_id = %d",
 	 * @return bool
 	 */
 	public function __isset( $key ) {
-		return in_array( $key, array_keys( $this->data ) );
+		return in_array( $offset, array_keys( $this->data ) );
 	}
 
 	/**

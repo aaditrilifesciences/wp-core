@@ -4,7 +4,9 @@
  *
  * Handles requests to the /products/<product_id>/variations endpoints.
  *
- * @package  WooCommerce\API
+ * @author   WooThemes
+ * @category API
+ * @package  WooCommerce/API
  * @since    3.0.0
  */
 
@@ -21,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller {
 
 	/**
-	 * Endpoint namespace.
+ 	 * Endpoint namespace.
 	 *
 	 * @var string
 	 */
@@ -90,9 +92,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 				'callback'            => array( $this, 'get_item' ),
 				'permission_callback' => array( $this, 'get_item_permissions_check' ),
 				'args'                => array(
-					'context' => $this->get_context_param( array(
-						'default' => 'view',
-					) ),
+					'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 				),
 			),
 			array(
@@ -377,17 +377,15 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 
 				// Check ID for global attributes or name for product attributes.
 				if ( ! empty( $attribute['id'] ) ) {
-					$attribute_id       = absint( $attribute['id'] );
-					$raw_attribute_name = wc_attribute_taxonomy_name_by_id( $attribute_id );
+					$attribute_id   = absint( $attribute['id'] );
+					$attribute_name = wc_attribute_taxonomy_name_by_id( $attribute_id );
 				} elseif ( ! empty( $attribute['name'] ) ) {
-					$raw_attribute_name = sanitize_title( $attribute['name'] );
+					$attribute_name = sanitize_title( $attribute['name'] );
 				}
 
-				if ( ! $attribute_id && ! $raw_attribute_name ) {
+				if ( ! $attribute_id && ! $attribute_name ) {
 					continue;
 				}
-
-				$attribute_name = sanitize_title( $raw_attribute_name );
 
 				if ( ! isset( $parent_attributes[ $attribute_name ] ) || ! $parent_attributes[ $attribute_name ]->get_variation() ) {
 					continue;
@@ -398,7 +396,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 
 				if ( $parent_attributes[ $attribute_name ]->is_taxonomy() ) {
 					// If dealing with a taxonomy, we need to get the slug from the name posted to the API.
-					$term = get_term_by( 'name', $attribute_value, $raw_attribute_name ); // @codingStandardsIgnoreLine
+					$term = get_term_by( 'name', $attribute_value, $attribute_name );
 
 					if ( $term && ! is_wp_error( $term ) ) {
 						$attribute_value = $term->slug;
@@ -451,7 +449,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 	/**
 	 * Delete a variation.
 	 *
-	 * @param WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request
 	 *
 	 * @return bool|WP_Error|WP_REST_Response
 	 */
@@ -461,9 +459,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 		$result = false;
 
 		if ( ! $object || 0 === $object->get_id() ) {
-			return new WP_Error( "woocommerce_rest_{$this->post_type}_invalid_id", __( 'Invalid ID.', 'woocommerce' ), array(
-				'status' => 404,
-			) );
+			return new WP_Error( "woocommerce_rest_{$this->post_type}_invalid_id", __( 'Invalid ID.', 'woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		$supports_trash = EMPTY_TRASH_DAYS > 0 && is_callable( array( $object, 'get_status' ) );
@@ -480,9 +476,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 
 		if ( ! wc_rest_check_post_permissions( $this->post_type, 'delete', $object->get_id() ) ) {
 			/* translators: %s: post type */
-			return new WP_Error( "woocommerce_rest_user_cannot_delete_{$this->post_type}", sprintf( __( 'Sorry, you are not allowed to delete %s.', 'woocommerce' ), $this->post_type ), array(
-				'status' => rest_authorization_required_code(),
-			) );
+			return new WP_Error( "woocommerce_rest_user_cannot_delete_{$this->post_type}", sprintf( __( 'Sorry, you are not allowed to delete %s.', 'woocommerce' ), $this->post_type ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		$request->set_param( 'context', 'edit' );
@@ -496,18 +490,14 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 			// If we don't support trashing for this type, error out.
 			if ( ! $supports_trash ) {
 				/* translators: %s: post type */
-				return new WP_Error( 'woocommerce_rest_trash_not_supported', sprintf( __( 'The %s does not support trashing.', 'woocommerce' ), $this->post_type ), array(
-					'status' => 501,
-				) );
+				return new WP_Error( 'woocommerce_rest_trash_not_supported', sprintf( __( 'The %s does not support trashing.', 'woocommerce' ), $this->post_type ), array( 'status' => 501 ) );
 			}
 
 			// Otherwise, only trash if we haven't already.
 			if ( is_callable( array( $object, 'get_status' ) ) ) {
 				if ( 'trash' === $object->get_status() ) {
 					/* translators: %s: post type */
-					return new WP_Error( 'woocommerce_rest_already_trashed', sprintf( __( 'The %s has already been deleted.', 'woocommerce' ), $this->post_type ), array(
-						'status' => 410,
-					) );
+					return new WP_Error( 'woocommerce_rest_already_trashed', sprintf( __( 'The %s has already been deleted.', 'woocommerce' ), $this->post_type ), array( 'status' => 410 ) );
 				}
 
 				$object->delete();
@@ -517,9 +507,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 
 		if ( ! $result ) {
 			/* translators: %s: post type */
-			return new WP_Error( 'woocommerce_rest_cannot_delete', sprintf( __( 'The %s cannot be deleted.', 'woocommerce' ), $this->post_type ), array(
-				'status' => 500,
-			) );
+			return new WP_Error( 'woocommerce_rest_cannot_delete', sprintf( __( 'The %s cannot be deleted.', 'woocommerce' ), $this->post_type ), array( 'status' => 500 ) );
 		}
 
 		// Delete parent product transients.
@@ -556,9 +544,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 			if ( ! empty( $items[ $batch_type ] ) ) {
 				$injected_items = array();
 				foreach ( $items[ $batch_type ] as $item ) {
-					$injected_items[] = is_array( $item ) ? array_merge( array(
-						'product_id' => $product_id,
-					), $item ) : $item;
+					$injected_items[] = is_array( $item ) ? array_merge( array( 'product_id' => $product_id ), $item ) : $item;
 				}
 				$body_params[ $batch_type ] = $injected_items;
 			}
@@ -674,7 +660,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 					'context'     => array( 'view', 'edit' ),
 				),
 				'date_on_sale_to_gmt' => array(
-					'description' => __( 'End date of sale price, as GMT.', 'woocommerce' ),
+					'description' => __( "End date of sale price, in the site's timezone.", 'woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view', 'edit' ),
 				),
@@ -685,7 +671,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 					'readonly'    => true,
 				),
 				'visible' => array(
-					'description' => __( "Define if the variation is visible on the product's page.", 'woocommerce' ),
+					'description' => __( "Define if the attribute is visible on the \"Additional information\" tab in the product's page.", 'woocommerce' ),
 					'type'        => 'boolean',
 					'default'     => true,
 					'context'     => array( 'view', 'edit' ),
@@ -943,7 +929,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 							),
 							'value' => array(
 								'description' => __( 'Meta value.', 'woocommerce' ),
-								'type'        => 'mixed',
+								'type'        => 'string',
 								'context'     => array( 'view', 'edit' ),
 							),
 						),

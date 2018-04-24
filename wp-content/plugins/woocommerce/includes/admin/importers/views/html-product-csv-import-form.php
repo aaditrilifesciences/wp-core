@@ -1,10 +1,7 @@
 <?php
 /**
  * Admin View: Product import form
- *
- * @package WooCommerce/Admin
  */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -20,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<tr>
 					<th scope="row">
 						<label for="upload">
-							<?php esc_html_e( 'Choose a CSV file from your computer:', 'woocommerce' ); ?>
+							<?php _e( 'Choose a CSV file from your computer:', 'woocommerce' ); ?>
 						</label>
 					</th>
 					<td>
@@ -35,32 +32,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<input type="file" id="upload" name="import" size="25" />
 							<input type="hidden" name="action" value="save" />
 							<input type="hidden" name="max_file_size" value="<?php echo esc_attr( $bytes ); ?>" />
-							<br>
-							<small>
-								<?php
+							<br><small><?php
 								/* translators: %s: maximum upload size */
 								printf(
-									esc_html__( 'Maximum size: %s', 'woocommerce' ),
+									__( 'Maximum size: %s', 'woocommerce' ),
 									$size
 								);
-								?>
-							</small>
+							?></small>
 							<?php
 						}
 					?>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="woocommerce-importer-update-existing"><?php esc_html_e( 'Update existing products', 'woocommerce' ); ?></label><br/></th>
+					<th><label for="woocommerce-importer-update-existing"><?php _e( 'Update existing products', 'woocommerce' ); ?></label><br/></th>
 					<td>
 						<input type="hidden" name="update_existing" value="0" />
 						<input type="checkbox" id="woocommerce-importer-update-existing" name="update_existing" value="1" />
-						<label for="woocommerce-importer-update-existing"><?php esc_html_e( 'Existing products that match by ID or SKU will be updated. Products that do not exist will be skipped.', 'woocommerce' ); ?></label>
+						<label for="woocommerce-importer-update-existing"><?php esc_html_e( 'If a product being imported matches an existing product by ID or SKU, update the existing product rather than creating a new product or skipping the row.', 'woocommerce' ); ?></label>
 					</td>
 				</tr>
 				<tr class="woocommerce-importer-advanced hidden">
 					<th>
-						<label for="woocommerce-importer-file-url"><?php esc_html_e( '<em>or</em> enter the path to a CSV file on your server:', 'woocommerce' ); ?></label>
+						<label for="woocommerce-importer-file-url"><?php _e( '<em>or</em> enter the path to a CSV file on your server:', 'woocommerce' ); ?></label>
 					</th>
 					<td>
 						<label for="woocommerce-importer-file-url" class="woocommerce-importer-file-url-field-wrapper">
@@ -69,7 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</td>
 				</tr>
 				<tr class="woocommerce-importer-advanced hidden">
-					<th><label><?php esc_html_e( 'CSV Delimiter', 'woocommerce' ); ?></label><br/></th>
+					<th><label><?php _e( 'CSV Delimiter', 'woocommerce' ); ?></label><br/></th>
 					<td><input type="text" name="delimiter" placeholder="," size="2" /></td>
 				</tr>
 			</tbody>
@@ -92,7 +86,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</script>
 	<div class="wc-actions">
 		<a href="#" class="woocommerce-importer-toggle-advanced-options" data-hidetext="<?php esc_html_e( 'Hide advanced options', 'woocommerce' ); ?>" data-showtext="<?php esc_html_e( 'Hide advanced options', 'woocommerce' ); ?>"><?php esc_html_e( 'Show advanced options', 'woocommerce' ); ?></a>
-		<button type="submit" class="button button-primary button-next" value="<?php esc_attr_e( 'Continue', 'woocommerce' ); ?>" name="save_step"><?php esc_html_e( 'Continue', 'woocommerce' ); ?></button>
+		<input type="submit" class="button button-primary button-next" value="<?php esc_attr_e( 'Continue', 'woocommerce' ); ?>" name="save_step" />
 		<?php wp_nonce_field( 'woocommerce-csv-importer' ); ?>
 	</div>
 </form>

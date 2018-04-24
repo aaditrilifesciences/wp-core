@@ -134,28 +134,18 @@ jQuery( function ( $ ) {
 		})
 
 		.on( 'init_tooltips', function() {
-
-			$( '.tips, .help_tip, .woocommerce-help-tip' ).tipTip( {
+			var tiptip_args = {
 				'attribute': 'data-tip',
 				'fadeIn': 50,
 				'fadeOut': 50,
 				'delay': 200
-			} );
+			};
 
-			$( '.column-wc_actions .wc-action-button' ).tipTip( {
-				'fadeIn': 50,
-				'fadeOut': 50,
-				'delay': 200
-			} );
+			$( '.tips, .help_tip, .woocommerce-help-tip' ).tipTip( tiptip_args );
 
 			// Add tiptip to parent element for widefat tables
 			$( '.parent-tips' ).each( function() {
-				$( this ).closest( 'a, th' ).attr( 'data-tip', $( this ).data( 'tip' ) ).tipTip( {
-					'attribute': 'data-tip',
-					'fadeIn': 50,
-					'fadeOut': 50,
-					'delay': 200
-				} ).css( 'cursor', 'help' );
+				$( this ).closest( 'a, th' ).attr( 'data-tip', $( this ).data( 'tip' ) ).tipTip( tiptip_args ).css( 'cursor', 'help' );
 			});
 		});
 
@@ -179,10 +169,6 @@ jQuery( function ( $ ) {
 			ui.item.removeAttr( 'style' );
 		}
 	});
-	// Focus on inputs within the table if clicked instead of trying to sort.
-	$( '.wc_input_table.sortable tbody input' ).on( 'click', function() {
-		$( this ).focus();
-	} );
 
 	$( '.wc_input_table .remove_rows' ).click( function() {
 		var $tbody = $( this ).closest( '.wc_input_table' ).find( 'tbody' );
@@ -302,4 +288,11 @@ jQuery( function ( $ ) {
 
 	// Attribute term table
 	$( 'table.attributes-table tbody tr:nth-child(odd)' ).addClass( 'alternate' );
+
+	// Load videos when help button is clicked.
+	$( '#contextual-help-link' ).on( 'click', function() {
+		var frame = $( '#tab-panel-woocommerce_guided_tour_tab iframe' );
+
+		frame.attr( 'src', frame.data( 'src' ) );
+	});
 });

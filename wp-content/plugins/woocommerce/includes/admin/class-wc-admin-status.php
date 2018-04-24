@@ -2,6 +2,8 @@
 /**
  * Debug/Status page
  *
+ * @author      WooThemes
+ * @category    Admin
  * @package     WooCommerce/Admin/System Status
  * @version     2.2.0
  */
@@ -113,7 +115,7 @@ class WC_Admin_Status {
 		}
 
 		// Bulk actions
-		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['log'] ) ) {
+		if ( isset( $_GET['action'] ) && isset( $_GET['log'] ) ) {
 			self::log_table_bulk_actions();
 		}
 
@@ -313,9 +315,9 @@ class WC_Admin_Status {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'woocommerce' ) );
 		}
 
-		$log_ids = array_map( 'absint', (array) $_REQUEST['log'] );
+		$log_ids = array_map( 'absint', (array) $_GET['log'] );
 
-		if ( 'delete' === $_REQUEST['action'] || 'delete' === $_REQUEST['action2'] ) {
+		if ( 'delete' === $_GET['action'] || 'delete' === $_GET['action2'] ) {
 			WC_Log_Handler_DB::delete( $log_ids );
 			wp_safe_redirect( esc_url_raw( admin_url( 'admin.php?page=wc-status&tab=logs' ) ) );
 			exit();

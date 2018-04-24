@@ -1,27 +1,25 @@
 <?php
-/**
- * Handles storage and retrieval of shipping zones
- *
- * @package WooCommerce/Classes
- * @author  Automattic
- * @version 3.3.0
- * @since   2.6.0
- */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Shipping zones class.
+ * Handles storage and retrieval of shipping zones
+ *
+ * @class 		WC_Shipping_Zones
+ * @since 		2.6.0
+ * @version		3.0.0
+ * @package		WooCommerce/Classes
+ * @category	Class
+ * @author 		WooCommerce
  */
 class WC_Shipping_Zones {
 
 	/**
-	 * Get shipping zones from the database.
-	 *
+	 * Get shipping zones from the database
 	 * @since 2.6.0
-	 * @return array Array of arrays.
+	 * @return array of arrays
 	 */
 	public static function get_zones() {
 		$data_store = WC_Data_Store::load( 'shipping-zone' );
@@ -29,7 +27,7 @@ class WC_Shipping_Zones {
 		$zones      = array();
 
 		foreach ( $raw_zones as $raw_zone ) {
-			$zone                                                = new WC_Shipping_Zone( $raw_zone );
+			$zone                                                     = new WC_Shipping_Zone( $raw_zone );
 			$zones[ $zone->get_id() ]                            = $zone->get_data();
 			$zones[ $zone->get_id() ]['zone_id']                 = $zone->get_id();
 			$zones[ $zone->get_id() ]['formatted_zone_location'] = $zone->get_formatted_location();
@@ -41,9 +39,8 @@ class WC_Shipping_Zones {
 
 	/**
 	 * Get shipping zone using it's ID
-	 *
 	 * @since 2.6.0
-	 * @param int $zone_id Zone ID.
+	 * @param int $zone_id
 	 * @return WC_Shipping_Zone|bool
 	 */
 	public static function get_zone( $zone_id ) {
@@ -52,23 +49,20 @@ class WC_Shipping_Zones {
 
 	/**
 	 * Get shipping zone by an ID.
-	 *
 	 * @since 2.6.0
-	 * @param string $by Get by 'zone_id' or 'instance_id'.
-	 * @param int    $id ID.
+	 * @param string $by zone_id or instance_id
+	 * @param int $id
 	 * @return WC_Shipping_Zone|bool
 	 */
 	public static function get_zone_by( $by = 'zone_id', $id = 0 ) {
-		$zone_id = false;
-
 		switch ( $by ) {
-			case 'zone_id':
+			case 'zone_id' :
 				$zone_id = $id;
-				break;
-			case 'instance_id':
+			break;
+			case 'instance_id' :
 				$data_store = WC_Data_Store::load( 'shipping-zone' );
 				$zone_id    = $data_store->get_zone_id_by_instance_id( $id );
-				break;
+			break;
 		}
 
 		if ( false !== $zone_id ) {
@@ -83,11 +77,12 @@ class WC_Shipping_Zones {
 	}
 
 	/**
-	 * Get shipping zone using it's ID.
-	 *
+	 * Get shipping zone using it's ID
 	 * @since 2.6.0
-	 * @param int $instance_id Instance ID.
-	 * @return bool|WC_Shipping_Method
+	 *
+	 * @param $instance_id
+	 *
+	 * @return bool|WC_Shipping_Meethod
 	 */
 	public static function get_shipping_method( $instance_id ) {
 		$data_store          = WC_Data_Store::load( 'shipping-zone' );
@@ -107,8 +102,7 @@ class WC_Shipping_Zones {
 
 	/**
 	 * Delete a zone using it's ID
-	 *
-	 * @param int $zone_id Zone ID.
+	 * @param int $zone_id
 	 * @since 2.6.0
 	 */
 	public static function delete_zone( $zone_id ) {
@@ -118,10 +112,9 @@ class WC_Shipping_Zones {
 
 	/**
 	 * Find a matching zone for a given package.
-	 *
 	 * @since  2.6.0
 	 * @uses   wc_make_numeric_postcode()
-	 * @param  array $package Shipping package.
+	 * @param  object $package
 	 * @return WC_Shipping_Zone
 	 */
 	public static function get_zone_matching_package( $package ) {

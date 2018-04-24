@@ -1,10 +1,4 @@
 <?php
-/**
- * WooCommerce product variation class.
- *
- * @package WooCommerce/Classes
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -24,14 +18,12 @@ class WC_Product_Variation extends WC_Product_Simple {
 
 	/**
 	 * Post type.
-	 *
 	 * @var string
 	 */
-	protected $post_type = 'product_variation';
+	public $post_type = 'product_variation';
 
 	/**
 	 * Parent data.
-	 *
 	 * @var array
 	 */
 	protected $parent_data = array(
@@ -51,16 +43,6 @@ class WC_Product_Variation extends WC_Product_Simple {
 	);
 
 	/**
-	 * Override the default constructor to set custom defaults.
-	 *
-	 * @param int|WC_Product|object $product Product to init.
-	 */
-	public function __construct( $product = 0 ) {
-		$this->data['tax_class'] = 'parent';
-		parent::__construct( $product );
-	}
-
-	/**
 	 * Prefix for action and filter hooks on data.
 	 *
 	 * @since  3.0.0
@@ -72,7 +54,6 @@ class WC_Product_Variation extends WC_Product_Simple {
 
 	/**
 	 * Get internal type.
-	 *
 	 * @return string
 	 */
 	public function get_type() {
@@ -81,7 +62,6 @@ class WC_Product_Variation extends WC_Product_Simple {
 
 	/**
 	 * If the stock level comes from another product ID.
-	 *
 	 * @since  3.0.0
 	 * @return int
 	 */
@@ -110,7 +90,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 			$identifier = '#' . $this->get_id();
 		}
 
-		$formatted_variation_list = wc_get_formatted_variation( $this, true, true, true );
+		$formatted_variation_list = wc_get_formatted_variation( $this, true, true );
 
 		return sprintf( '%2$s (%1$s)', $identifier, $this->get_name() ) . '<span class="description">' . $formatted_variation_list . '</span>';
 	}
@@ -131,7 +111,6 @@ class WC_Product_Variation extends WC_Product_Simple {
 
 	/**
 	 * Returns a single product attribute as a string.
-	 *
 	 * @param  string $attribute to get.
 	 * @return string
 	 */
@@ -157,7 +136,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Wrapper for get_permalink. Adds this variations attributes to the URL.
 	 *
-	 * @param  array|null $item_object item array If a cart or order item is passed, we can get a link containing the exact attributes selected for the variation, rather than the default attributes.
+	 * @param  $item_object item array If a cart or order item is passed, we can get a link containing the exact attributes selected for the variation, rather than the default attributes.
 	 * @return string
 	 */
 	public function get_permalink( $item_object = null ) {
@@ -189,7 +168,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Get SKU (Stock-keeping unit) - product unique ID.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_sku( $context = 'view' ) {
@@ -205,7 +184,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Returns the product's weight.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_weight( $context = 'view' ) {
@@ -221,7 +200,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Returns the product length.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_length( $context = 'view' ) {
@@ -237,7 +216,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Returns the product width.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_width( $context = 'view' ) {
@@ -253,7 +232,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Returns the product height.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_height( $context = 'view' ) {
@@ -271,7 +250,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	 *
 	 * Does not use get_prop so it can handle 'parent' Inheritance correctly.
 	 *
-	 * @param  string $context view, edit, or unfiltered.
+	 * @param  string $context view, edit, or unfiltered
 	 * @return string
 	 */
 	public function get_tax_class( $context = 'view' ) {
@@ -295,7 +274,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	 * Return if product manage stock.
 	 *
 	 * @since 3.0.0
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return boolean|string true, false, or parent.
 	 */
 	public function get_manage_stock( $context = 'view' ) {
@@ -311,7 +290,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Returns number of items available for sale.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return int|null
 	 */
 	public function get_stock_quantity( $context = 'view' ) {
@@ -327,7 +306,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Get backorders.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @since 3.0.0
 	 * @return string yes no or notify
 	 */
@@ -345,7 +324,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	 * Get main image ID.
 	 *
 	 * @since 3.0.0
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_image_id( $context = 'view' ) {
@@ -362,7 +341,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	 * Get purchase note.
 	 *
 	 * @since 3.0.0
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_purchase_note( $context = 'view' ) {
@@ -379,7 +358,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	 * Get shipping class ID.
 	 *
 	 * @since 3.0.0
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return int
 	 */
 	public function get_shipping_class_id( $context = 'view' ) {
@@ -395,7 +374,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Get catalog visibility.
 	 *
-	 * @param  string $context What the value is for. Valid values are view and edit.
+	 * @param  string $context
 	 * @return string
 	 */
 	public function get_catalog_visibility( $context = 'view' ) {
@@ -412,7 +391,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	 * Set the parent data array for this variation.
 	 *
 	 * @since 3.0.0
-	 * @param array $parent_data parent data array for this variation.
+	 * @param array
 	 */
 	public function set_parent_data( $parent_data ) {
 		$this->parent_data = $parent_data;
@@ -431,8 +410,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Set attributes. Unlike the parent product which uses terms, variations are assigned
 	 * specific attributes using name value pairs.
-	 *
-	 * @param array $raw_attributes array of raw attributes.
+	 * @param array $raw_attributes
 	 */
 	public function set_attributes( $raw_attributes ) {
 		$raw_attributes = (array) $raw_attributes;
@@ -446,6 +424,16 @@ class WC_Product_Variation extends WC_Product_Simple {
 			$attributes[ $key ] = $value;
 		}
 		$this->set_prop( 'attributes', $attributes );
+	}
+
+	/**
+	 * Returns array of attribute name value pairs. Keys are prefixed with attribute_, as stored.
+	 *
+	 * @param  string $context
+	 * @return array
+	 */
+	public function get_attributes( $context = 'view' ) {
+		return $this->get_prop( 'attributes', $context );
 	}
 
 	/**
@@ -496,17 +484,5 @@ class WC_Product_Variation extends WC_Product_Simple {
 	 */
 	public function variation_is_visible() {
 		return apply_filters( 'woocommerce_variation_is_visible', 'publish' === get_post_status( $this->get_id() ) && '' !== $this->get_price(), $this->get_id(), $this->get_parent_id(), $this );
-	}
-
-	/**
-	 * Return valid tax classes. Adds 'parent' to the default list of valid tax classes.
-	 *
-	 * @return array valid tax classes
-	 */
-	protected function get_valid_tax_classes() {
-		$valid_classes = WC_Tax::get_tax_class_slugs();
-		$valid_classes[] = 'parent';
-
-		return $valid_classes;
 	}
 }

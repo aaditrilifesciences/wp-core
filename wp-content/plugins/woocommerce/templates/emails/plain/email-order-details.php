@@ -10,9 +10,10 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates/Emails
- * @version 3.3.0
+ * @see 	    https://docs.woocommerce.com/document/template-structure/
+ * @author 		WooThemes
+ * @package 	WooCommerce/Templates/Emails
+ * @version     2.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,10 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plain_text, $email );
 
-/* translators: %s: Order ID. */
-echo wp_kses_post( strtoupper( sprintf( __( 'Order number: %s', 'woocommerce' ), $order->get_order_number() ) ) ) . "\n";
-echo wc_format_datetime( $order->get_date_created() ) . "\n";  // WPCS: XSS ok.
-echo "\n" . wc_get_email_order_items( $order, array( // WPCS: XSS ok.
+echo strtoupper( sprintf( __( 'Order number: %s', 'woocommerce' ), $order->get_order_number() ) ) . "\n";
+echo wc_format_datetime( $order->get_date_created() ) . "\n";
+echo "\n" . wc_get_email_order_items( $order, array(
 	'show_sku'      => $sent_to_admin,
 	'show_image'    => false,
 	'image_size'    => array( 32, 32 ),
@@ -34,21 +34,14 @@ echo "\n" . wc_get_email_order_items( $order, array( // WPCS: XSS ok.
 
 echo "==========\n\n";
 
-$totals = $order->get_order_item_totals();
-
-if ( $totals ) {
+if ( $totals = $order->get_order_item_totals() ) {
 	foreach ( $totals as $total ) {
-		echo wp_kses_post( $total['label'] . "\t " . $total['value'] ) . "\n";
+		echo $total['label'] . "\t " . $total['value'] . "\n";
 	}
 }
 
-if ( $order->get_customer_note() ) {
-	echo esc_html__( 'Note:', 'woocommerce' ) . "\t " . wp_kses_post( wptexturize( $order->get_customer_note() ) ) . "\n";
-}
-
 if ( $sent_to_admin ) {
-	/* translators: %s: Order link. */
-	echo "\n" . sprintf( esc_html__( 'View order: %s', 'woocommerce' ), esc_url( $order->get_edit_order_url() ) ) . "\n";
+	echo "\n" . sprintf( __( 'View order: %s', 'woocommerce' ), admin_url( 'post.php?post=' . $order->get_id() . '&action=edit' ) ) . "\n";
 }
 
 do_action( 'woocommerce_email_after_order_table', $order, $sent_to_admin, $plain_text, $email );

@@ -4,20 +4,22 @@
  *
  * Functions for error/message handling and display.
  *
- * @package WooCommerce/Functions
- * @version 2.1.0
+ * @author 		WooThemes
+ * @category 	Core
+ * @package 	WooCommerce/Functions
+ * @version     2.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly
 }
 
 /**
  * Get the count of notices added, either for all notices (default) or for one.
  * particular notice type specified by $notice_type.
  *
- * @since  2.1
- * @param  string $notice_type Optional. The name of the notice type - either error, success or notice.
+ * @since 2.1
+ * @param string $notice_type The name of the notice type - either error, success or notice. [optional]
  * @return int
  */
 function wc_notice_count( $notice_type = '' ) {
@@ -31,12 +33,12 @@ function wc_notice_count( $notice_type = '' ) {
 
 	if ( isset( $all_notices[ $notice_type ] ) ) {
 
-		$notice_count = count( $all_notices[ $notice_type ] );
+		$notice_count = absint( sizeof( $all_notices[ $notice_type ] ) );
 
 	} elseif ( empty( $notice_type ) ) {
 
 		foreach ( $all_notices as $notices ) {
-			$notice_count += count( $notices );
+			$notice_count += absint( sizeof( $all_notices ) );
 		}
 	}
 
@@ -46,9 +48,9 @@ function wc_notice_count( $notice_type = '' ) {
 /**
  * Check if a notice has already been added.
  *
- * @since  2.1
- * @param  string $message The text to display in the notice.
- * @param  string $notice_type Optional. The name of the notice type - either error, success or notice.
+ * @since 2.1
+ * @param string $message The text to display in the notice.
+ * @param string $notice_type The singular name of the notice type - either error, success or notice. [optional]
  * @return bool
  */
 function wc_has_notice( $message, $notice_type = 'success' ) {
@@ -59,7 +61,7 @@ function wc_has_notice( $message, $notice_type = 'success' ) {
 
 	$notices = WC()->session->get( 'wc_notices', array() );
 	$notices = isset( $notices[ $notice_type ] ) ? $notices[ $notice_type ] : array();
-	return array_search( $message, $notices, true ) !== false;
+	return array_search( $message, $notices ) !== false;
 }
 
 /**
@@ -67,7 +69,7 @@ function wc_has_notice( $message, $notice_type = 'success' ) {
  *
  * @since 2.1
  * @param string $message The text to display in the notice.
- * @param string $notice_type Optional. The name of the notice type - either error, success or notice.
+ * @param string $notice_type The singular name of the notice type - either error, success or notice. [optional]
  */
 function wc_add_notice( $message, $notice_type = 'success' ) {
 	if ( ! did_action( 'woocommerce_init' ) ) {
@@ -77,7 +79,7 @@ function wc_add_notice( $message, $notice_type = 'success' ) {
 
 	$notices = WC()->session->get( 'wc_notices', array() );
 
-	// Backward compatibility.
+	// Backward compatibility
 	if ( 'success' === $notice_type ) {
 		$message = apply_filters( 'woocommerce_add_message', $message );
 	}
@@ -89,9 +91,9 @@ function wc_add_notice( $message, $notice_type = 'success' ) {
 
 /**
  * Set all notices at once.
- *
  * @since 2.6.0
- * @param mixed $notices Array of notices.
+ *
+ * @param mixed $notices
  */
 function wc_set_notices( $notices ) {
 	if ( ! did_action( 'woocommerce_init' ) ) {
@@ -148,7 +150,7 @@ add_action( 'woocommerce_before_single_product', 'wc_print_notices', 10 );
  *
  * @since 2.1
  * @param string $message The text to display in the notice.
- * @param string $notice_type Optional. The singular name of the notice type - either error, success or notice.
+ * @param string $notice_type The singular name of the notice type - either error, success or notice. [optional]
  */
 function wc_print_notice( $message, $notice_type = 'success' ) {
 	if ( 'success' === $notice_type ) {
@@ -163,8 +165,8 @@ function wc_print_notice( $message, $notice_type = 'success' ) {
 /**
  * Returns all queued notices, optionally filtered by a notice type.
  *
- * @since  2.1
- * @param  string $notice_type Optional. The singular name of the notice type - either error, success or notice.
+ * @since 2.1
+ * @param string $notice_type The singular name of the notice type - either error, success or notice. [optional]
  * @return array|mixed
  */
 function wc_get_notices( $notice_type = '' ) {
@@ -188,8 +190,7 @@ function wc_get_notices( $notice_type = '' ) {
 
 /**
  * Add notices for WP Errors.
- *
- * @param WP_Error $errors Errors.
+ * @param  WP_Error $errors
  */
 function wc_add_wp_error_notices( $errors ) {
 	if ( is_wp_error( $errors ) && $errors->get_error_messages() ) {

@@ -1,6 +1,5 @@
 /* global wp, woocommerce_admin_meta_boxes_variations, woocommerce_admin, accounting */
 jQuery( function( $ ) {
-    'use strict';
 
 	/**
 	 * Variations actions
@@ -62,11 +61,9 @@ jQuery( function( $ ) {
 		 */
 		variable_manage_stock: function() {
 			$( this ).closest( '.woocommerce_variation' ).find( '.show_if_variation_manage_stock' ).hide();
-			$( this ).closest( '.woocommerce_variation' ).find( '.hide_if_variation_manage_stock' ).show();
 
 			if ( $( this ).is( ':checked' ) ) {
 				$( this ).closest( '.woocommerce_variation' ).find( '.show_if_variation_manage_stock' ).show();
-				$( this ).closest( '.woocommerce_variation' ).find( '.hide_if_variation_manage_stock' ).hide();
 			}
 		},
 
@@ -126,10 +123,10 @@ jQuery( function( $ ) {
 				dateFormat:      'yy-mm-dd',
 				numberOfMonths:  1,
 				showButtonPanel: true,
-				onSelect:        function() {
+				onSelect:        function( selectedDate, instance ) {
 					var option = $( this ).is( '.sale_price_dates_from' ) ? 'minDate' : 'maxDate',
 						dates  = $( this ).closest( '.sale_price_dates_fields' ).find( 'input' ),
-						date   = $( this ).datepicker( 'getDate' );
+						date   = $.datepicker.parseDate( instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings );
 
 					dates.not( this ).datepicker( 'option', option, date );
 					$( this ).change();
@@ -724,8 +721,6 @@ jQuery( function( $ ) {
 						} else {
 							data.value = accounting.unformat( value, woocommerce_admin.mon_decimal_point );
 						}
-					} else {
-						return;
 					}
 					break;
 				case 'variable_regular_price' :
@@ -741,8 +736,6 @@ jQuery( function( $ ) {
 
 					if ( value != null ) {
 						data.value = value;
-					} else {
-						return;
 					}
 					break;
 				case 'variable_sale_schedule' :
@@ -755,10 +748,6 @@ jQuery( function( $ ) {
 
 					if ( null === data.date_to ) {
 						data.date_to = false;
-					}
-
-					if ( false === data.date_to && false === data.date_from ) {
-						return;
 					}
 					break;
 				default :

@@ -13,25 +13,19 @@
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @author  WooThemes
  * @package WooCommerce/Templates/Emails
- * @version 3.3.0
+ * @version 2.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly
 }
 
-// Load colors.
+// Load colors
 $bg              = get_option( 'woocommerce_email_background_color' );
 $body            = get_option( 'woocommerce_email_body_background_color' );
 $base            = get_option( 'woocommerce_email_base_color' );
 $base_text       = wc_light_or_dark( $base, '#202020', '#ffffff' );
 $text            = get_option( 'woocommerce_email_text_color' );
-
-// Pick a contrasting color for links.
-$link = wc_hex_is_light( $base ) ? $base : $base_text;
-if ( wc_hex_is_light( $body ) ) {
-	$link = wc_hex_is_light( $base ) ? $base_text : $base;
-}
 
 $bg_darker_10    = wc_hex_darker( $bg, 10 );
 $body_darker_10  = wc_hex_darker( $body, 10 );
@@ -92,7 +86,7 @@ $text_lighter_20 = wc_hex_lighter( $text, 20 );
 }
 
 #body_content table td {
-	padding: 48px 48px 0;
+	padding: 48px;
 }
 
 #body_content table td td {
@@ -136,12 +130,6 @@ $text_lighter_20 = wc_hex_lighter( $text, 20 );
 	border: 1px solid <?php echo esc_attr( $body_darker_10 ); ?>;
 }
 
-.address {
-	padding:12px 12px 0;
-	color: <?php echo esc_attr( $text_lighter_20 ); ?>;
-	border: 1px solid <?php echo esc_attr( $body_darker_10 ); ?>;
-}
-
 .text {
 	color: <?php echo esc_attr( $text ); ?>;
 	font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
@@ -165,6 +153,7 @@ h1 {
 	margin: 0;
 	text-align: <?php echo is_rtl() ? 'right' : 'left'; ?>;
 	text-shadow: 0 1px 0 <?php echo esc_attr( $base_lighter_20 ); ?>;
+	-webkit-font-smoothing: antialiased;
 }
 
 h2 {
@@ -174,7 +163,7 @@ h2 {
 	font-size: 18px;
 	font-weight: bold;
 	line-height: 130%;
-	margin: 0 0 18px;
+	margin: 16px 0 8px;
 	text-align: <?php echo is_rtl() ? 'right' : 'left'; ?>;
 }
 
@@ -190,7 +179,7 @@ h3 {
 }
 
 a {
-	color: <?php echo esc_attr( $link ); ?>;
+	color: <?php echo esc_attr( $base ); ?>;
 	font-weight: normal;
 	text-decoration: underline;
 }
